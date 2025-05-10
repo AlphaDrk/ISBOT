@@ -473,5 +473,8 @@ def view_shared_chat(token):
     return render_template('shared_chat.html', chat_history=processed_history)
 
 if __name__ == '__main__':
-    port = int(os.getenv('PORT', 8080))  # Updated port to 8080
-    app.run(host='0.0.0.0', port=port, debug=True)
+    # This block only runs when you execute app.py directly
+    # In production, Gunicorn will import the app object and use it
+    port = int(os.getenv('PORT', 8080))
+    debug_mode = os.getenv('FLASK_ENV') == 'development'
+    app.run(host='0.0.0.0', port=port, debug=debug_mode)
