@@ -1,3 +1,7 @@
 *.log
 *.env
 *.md
+models/
+env/
+indexdir/
+__pycache__/
