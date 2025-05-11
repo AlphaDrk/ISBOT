@@ -472,6 +472,6 @@ def view_shared_chat(token):
             continue
     return render_template('shared_chat.html', chat_history=processed_history)
 
-if __name__ == '__main__':
-    port = int(os.getenv('PORT', 8080))  # Default to 5000 if PORT not set
-    app.run(host='0.0.0.0', port=port, debug=True)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
