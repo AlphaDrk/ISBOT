@@ -176,32 +176,32 @@ def get_response(user_input, user_id):
     if max_similarity > 0.65:
         answer = responses[best_match_idx]
         if not is_placeholder_or_stupid_answer(answer) and is_relevant_answer(user_input, answer):
-        return {
+            return {
                 "answer": answer,
                 "url": format_url(urls[best_match_idx]) if urls[best_match_idx] else None,
-            "file_path": file_paths[best_match_idx] if file_paths[best_match_idx] else None,
-            "similarity": float(max_similarity),
+                "file_path": file_paths[best_match_idx] if file_paths[best_match_idx] else None,
+                "similarity": float(max_similarity),
                 "category": nb_classifier.predict(input_tfidf)[0],
-            "is_shortcut": False,
+                "is_shortcut": False,
                 "method": map_method_name("tfidf 🧠"),
-            "source": "local"
-        }
+                "source": "local"
+            }
 
     # Try FastText matching
     ft_idx, ft_sim = get_best_match_with_fasttext(user_input)
     if ft_sim > 0.8:
         answer = responses[ft_idx]
         if not is_placeholder_or_stupid_answer(answer) and is_relevant_answer(user_input, answer):
-        return {
+            return {
                 "answer": answer,
                 "url": format_url(urls[ft_idx]) if urls[ft_idx] else None,
-            "file_path": file_paths[ft_idx] if file_paths[ft_idx] else None,
-            "similarity": float(ft_sim),
+                "file_path": file_paths[ft_idx] if file_paths[ft_idx] else None,
+                "similarity": float(ft_sim),
                 "category": nb_classifier.predict(input_tfidf)[0],
-            "is_shortcut": False,
+                "is_shortcut": False,
                 "method": map_method_name("fasttext 🧠"),
-            "source": "local"
-        }
+                "source": "local"
+            }
 
     # Try KNN matching
     distances, indices = knn_classifier.kneighbors(input_dense, n_neighbors=1)
@@ -209,16 +209,16 @@ def get_response(user_input, user_id):
         idx = indices[0][0]
         answer = responses[idx]
         if not is_placeholder_or_stupid_answer(answer) and is_relevant_answer(user_input, answer):
-        return {
+            return {
                 "answer": answer,
                 "url": format_url(urls[idx]) if urls[idx] else None,
-            "file_path": file_paths[idx] if file_paths[idx] else None,
-            "similarity": float(1.0 - distances[0][0]),
+                "file_path": file_paths[idx] if file_paths[idx] else None,
+                "similarity": float(1.0 - distances[0][0]),
                 "category": nb_classifier.predict(input_tfidf)[0],
-            "is_shortcut": False,
+                "is_shortcut": False,
                 "method": map_method_name("knn 🧠"),
-            "source": "local"
-        }
+                "source": "local"
+            }
 
     # Try Whoosh index search
     search_result = search_in_index(user_input)

@@ -472,21 +472,6 @@ def view_shared_chat(token):
             continue
     return render_template('shared_chat.html', chat_history=processed_history)
 
-# Update Google OAuth Configuration for production
-GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
-GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
-# Update this to your PythonAnywhere domain
-GOOGLE_REDIRECT_URI = os.getenv('GOOGLE_REDIRECT_URI', 'https://yourusername.pythonanywhere.com/auth/callback')
-
-# Disable OAuth insecure transport in production
-if not app.debug:
-    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '0'
-
-# Update database configuration for production
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///chatbot.db')
-
 if __name__ == '__main__':
-    if app.debug:
-        app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
-    else:
-        app.run()
+    port = int(os.getenv('PORT', 8080))  # Default to 5000 if PORT not set
+    app.run(host='0.0.0.0', port=port, debug=True)
