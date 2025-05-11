@@ -214,31 +214,29 @@
       }
       
       const shareChatBtn = document.getElementById('share-chat-icon');
-      if (shareChatBtn) {
-        shareChatBtn.addEventListener('click', async () => {
-          const sessionId = document.getElementById('session-id')?.value;
-          if (!sessionId) return;
-          // Prevent sharing if running locally
-          if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-            showQrPopup(null, null, true);
-            return;
-          }
-          try {
-            const res = await fetch(`/api/share_chat/${sessionId}`, { method: 'POST' });
-            const data = await res.json();
-            if (data.status === 'success') {
-              const shareUrl = data.share_url;
-              // Always copy the link automatically
-              await navigator.clipboard.writeText(shareUrl);
-              showQrPopup(shareUrl);
-            } else {
-              showQrPopup(null, 'Erreur lors de la génération du lien de partage.');
-            }
-          } catch (e) {
-            showQrPopup(null, 'Erreur lors de la génération du lien de partage.');
-          }
-        });
+if (shareChatBtn) {
+  shareChatBtn.addEventListener('click', async () => {
+    const sessionId = document.getElementById('session-id')?.value;
+    if (!sessionId) {
+      showQrPopup(null, 'Aucune session de chat à partager.');
+      return;
+    }
+    try {
+      const res = await fetch(`/api/share_chat/${sessionId}`, { method: 'POST' });
+      const data = await res.json();
+      if (data.status === 'success') {
+        const shareUrl = data.share_url; // e.g., http://localhost:5000/share/<session_id>
+        await navigator.clipboard.writeText(shareUrl);
+        showQrPopup(shareUrl);
+      } else {
+        showQrPopup(null, 'Erreur lors de la génération du lien de partage.');
       }
+    } catch (e) {
+      console.error('Error generating share link:', e);
+      showQrPopup(null, 'Erreur lors de la génération du lien de partage.');
+    }
+  });
+}
 
       const deleteOverlay = document.getElementById('delete-overlay');
       const confirmationPopup = document.getElementById('confirmation-popup');

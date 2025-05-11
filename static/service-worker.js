@@ -2,7 +2,8 @@ const CACHE_NAME = 'isbot-cache-v1';
 const urlsToCache = [
   '/',
   '/static/style.css',
-  '/static/logoX.PNG',
+  '/static/logoX.png',
+  '/static/user-avatar.png',
   '/static/assistant-avatar.png',
   '/static/manifest.json',
   // Add more static assets if needed

@@ -21,12 +21,12 @@ API_URL = 'https://openrouter.ai/api/v1/chat/completions'
 
 # Add a mapping for method names
 METHOD_NAME_MAP = {
-    'exact_match': 'correspondance exacte',
-    'tfidf 🧠': 'Recherche TF-IDF',
-    'fasttext 🧠': 'FastText',
-    'knn 🧠': 'Recherche KNN',
-    'index_search 🧠': 'Recherche Index',
-    'External Chatbot 👾': 'Chatbot Externe'
+    'exact_match': 'correspondance exacte 🧠',
+    'tfidf 🧠': 'Recherche TF-IDF 🧠',
+    'fasttext 🧠': 'FastText 🧠',
+    'knn 🧠': 'Recherche KNN 🧠',
+    'index_search 🧠': 'Recherche Index 🧠',
+    'External Chatbot 👾': 'Chatbot Externe 👾'
 }
 
 def map_method_name(method):
@@ -173,6 +173,9 @@ def get_response(user_input, user_id):
     best_match_idx = similarities.argmax()
     max_similarity = similarities[0, best_match_idx]
 
+    # Format similarity as a percentage
+    max_similarity_percentage = round(max_similarity * 100, 2)
+
     if max_similarity > 0.65:
         answer = responses[best_match_idx]
         if not is_placeholder_or_stupid_answer(answer) and is_relevant_answer(user_input, answer):
@@ -180,7 +183,7 @@ def get_response(user_input, user_id):
                 "answer": answer,
                 "url": format_url(urls[best_match_idx]) if urls[best_match_idx] else None,
                 "file_path": file_paths[best_match_idx] if file_paths[best_match_idx] else None,
-                "similarity": float(max_similarity),
+                "similarity": max_similarity_percentage,  # Use formatted percentage
                 "category": nb_classifier.predict(input_tfidf)[0],
                 "is_shortcut": False,
                 "method": map_method_name("tfidf 🧠"),
@@ -201,10 +204,10 @@ def get_response(user_input, user_id):
                 "is_shortcut": False,
                 "method": map_method_name("fasttext 🧠"),
                 "source": "local"
-            }
+             }
 
     # Try KNN matching
-    distances, indices = knn_classifier.kneighbors(input_dense, n_neighbors=1)
+    distances, indices = knn_classifier.best_estimator_.kneighbors(input_dense, n_neighbors=1)  # Use best estimator
     if distances[0][0] < 0.7:
         idx = indices[0][0]
         answer = responses[idx]

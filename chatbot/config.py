@@ -4,19 +4,19 @@ import os
 load_dotenv()
 
 shortcuts = {
-    "🕒 Horaires": "Voici les horaires des cours. Consultez le lien pour plus de détails.",
-    "📞 Contact": "Pour contacter l'administration: Email: admin@iset.tn, Tél: +216 XX XXX XXX",
-    "📝 Inscription": "Les inscriptions sont ouvertes du 1er au 30 septembre. Consultez le guide d'inscription.",
-    "📚 Bibliothèque": "La bibliothèque est ouverte du lundi au vendredi de 8h à 18h",
-    "📖 Examens": "Le calendrier des examens est disponible via le lien ci-dessous.",
+    "🕒 Horaires": "Consultez le calendrier des devoirs pour le 2ème semestre 2024-2025 (SEG, TI, GP, GC, GM) sur le site officiel.",
+    "📞 Contact": "Contactez l'administration: Email: bassem.jallouli@sfax.r-iset.tn (Directeur), Tél: +216 74 431 495 (Sciences Économiques et Gestion).",
+    "📝 Inscription": "La pré-inscription en ligne est disponible via www.inscription.tn. Consultez la page d'inscription pour plus de détails.",
+    "📚 Bibliothèque": "La bibliothèque de l'ISET Sfax dispose de 3550 ouvrages. Horaires disponibles auprès de l'administration.",
+    "📖 Examens": "Le planning des devoirs pour le 2ème semestre 2024-2025 est disponible. Téléchargez la convocation via le lien.",
 }
 
 shortcut_urls = {
-    "🕒 Horaires": "/programmes/horaires",
-    "📞 Contact": "/contacts/administration",
-    "📝 Inscription": "/admissions/procedure-inscription",
-    "📚 Bibliothèque": "/services/bibliotheque",
-    "📖 Examens": "/programmes/calendrier-examens",
+    "🕒 Horaires": "/fr/article/704/calendrier-des-devoirs-2s-20242025",
+    "📞 Contact": "/fr/institut/message-du-directeur",
+    "📝 Inscription": "/fr/inscription-en-ligne",
+    "📚 Bibliothèque": "/fr/institut/presentation",
+    "📖 Examens": "/fr/article/707/planning-des-devoirs-2s-2425",
 }
 
 MODEL_PATHS = {

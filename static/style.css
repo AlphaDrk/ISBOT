@@ -1146,11 +1146,91 @@ body::-webkit-scrollbar {
     transition: background 0.3s;
 }
 
-/* Search Results Highlight */
-.chat-message[style*="background-color"] {
-    transition: background-color 0.3s ease, opacity 0.3s ease;
+@media print {
+    body {
+        background: #fff;
+        color: #000;
+        margin: 0;
+        padding: 0;
+        overflow: visible;
+    }
+    .container, .main-content, .chat-wrapper, .chat-box {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 1cm;
+        height: auto;
+        overflow: visible;
+        display: block;
+    }
+    .sidebar, .top-bar, .input-container, .loading-indicator, .search-input-wrapper {
+        display: none !important;
+    }
+    .chat-message {
+        display: flex;
+        margin-bottom: 1.5cm;
+        align-items: flex-start;
+        page-break-inside: avoid;
+    }
+    .chat-message.user {
+        flex-direction: row-reverse; /* Ensure avatar is on the right */
+        justify-content: flex-end;
+    }
+    .chat-message.assistant {
+        flex-direction: row; /* Ensure avatar is on the left */
+        justify-content: flex-start;
+    }
+    .chat-message.user .chat-bubble {
+        margin-right: 1cm; /* Space between bubble and avatar */
+        border-radius: 20px 20px 8px 20px;
+        background: #E6F0FF;
+        border: 1.5px solid #007BFF;
+        color: #333333;
+    }
+    .chat-message.assistant .chat-bubble {
+        margin-left: 1cm;
+        border-radius: 20px 20px 20px 8px;
+        background: #F5F5F5;
+        border: 1.5px solid #DDDDDD;
+        color: #333333;
+    }
+    .chat-bubble {
+        max-width: 70%;
+        padding: 0.75cm 1cm;
+        box-shadow: none;
+        position: relative;
+        page-break-inside: avoid;
+    }
+    .avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        margin: 0 0.75cm;
+        flex-shrink: 0;
+    }
+    .timestamp {
+        font-size: 0.6cm;
+        color: #666666;
+        margin-top: 0.5cm;
+    }
+    .copy-btn, .bubble-actions, .feedback {
+        display: none !important;
+    }
+    .chat-bubble a {
+        color: #007BFF;
+        text-decoration: underline;
+    }
+    .chat-box {
+        background: #fff;
+    }
+    img {
+        max-width: 200px;
+        max-height: 200px;
+        display: block;
+        margin: 0.5cm 0;
+        border-radius: 8px;
+    }
 }
-
-.chat-message[style*="background-color"] .chat-bubble {
-    border-color: var(--accent-color);
+.chat-message.user .chat-bubble {
+    margin-right: 1rem;
 }

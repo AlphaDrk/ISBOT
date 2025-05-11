@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Model Metrics Dashboard</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Model</th>
+                <th>F1 Score</th>
+                <th>Precision</th>
+                <th>Recall</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for model, metrics in metrics.items() %}
+            <tr>
+                <td>{{ model }}</td>
+                <td>{{ metrics.f1_score }}</td>
+                <td>{{ metrics.precision }}</td>
+                <td>{{ metrics.recall }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

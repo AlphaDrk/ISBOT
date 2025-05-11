@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,30 +9,123 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <style>
-    body { background: #f5f7fa; color: #222; font-family: 'Inter', sans-serif; }
-    .public-banner { background: #e0e7ef; color: #333; padding: 1rem; border-radius: 10px; margin: 2rem auto 1.5rem auto; max-width: 700px; text-align: center; font-weight: 500; }
-    .shared-chat-container { max-width: 700px; margin: 0 auto; background: #fff; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); padding: 2rem 1.5rem 1.5rem 1.5rem; }
-    .chat-box { background: none; box-shadow: none; padding: 0; }
-    .chat-message { margin-bottom: 1.5rem; }
-    .chat-bubble { background: #f5f5f5; color: #222; }
-    .chat-message.user .chat-bubble { background: #e6f0ff; color: #222; }
-    .chat-message.assistant .chat-bubble { background: #f5f5f5; color: #222; }
-    .timestamp { color: #888; font-size: 0.8rem; margin-top: 0.5rem; }
-    .bubble-actions, .feedback { display: none !important; }
-    @media print {
-      body * { visibility: hidden !important; }
-      .chat-box, .chat-box * { visibility: visible !important; }
-      .public-banner, #pdf-btn { display: none !important; }
-      .shared-chat-container { box-shadow: none !important; background: #fff !important; }
+    body {
+      background: #f5f7fa;
+      color: #222;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .public-banner {
+      background: #e0e7ef;
+      color: #333;
+      padding: 1rem;
+      border-radius: 10px;
+      margin: 2rem auto 1.5rem auto;
+      max-width: 700px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .shared-chat-container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+      padding: 2rem 1.5rem;
+    }
+
+    .chat-box {
+      background: none;
+      box-shadow: none;
+      padding: 0;
+    }
+
+    .chat-message {
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .chat-bubble {
+      background: #f5f5f5;
+      color: #222;
+      padding: 1rem;
+      border-radius: 12px;
+      flex: 1;
+      word-wrap: break-word;
+    }
+
+    .chat-message.user .chat-bubble {
+      background: #e6f0ff;
+      color: #222;
+    }
+
+    .chat-message.assistant .chat-bubble {
+      background: #f5f5f5;
+      color: #222;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .timestamp {
+      color: #888;
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+    }
+
+    .bubble-actions,
+    .feedback {
+      display: none !important;
+    }
+
+    .mt-2 a {
+      color: #007BFF;
+      text-decoration: underline;
+    }
+
+    .mt-2 img {
+      max-width: 300px;
+      max-height: 300px;
+      border-radius: 8px;
+      margin: 0.5rem 0;
+    }
+
+    #pdf-btn {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      background: #007BFF;
+      color: #fff;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
     }
   </style>
 </head>
+
 <body>
   <div class="public-banner">
     <i class="fas fa-globe" style="margin-right: 0.5rem;"></i>
-    Ceci est un lien de partage public. Toute personne disposant de ce lien peut consulter cette session de chat (lecture seule).
+    Ceci est un lien de partage public. Toute personne disposant de ce lien peut consulter cette session de chat
+    (lecture seule).
   </div>
-  <div class="shared-chat-container" style="position:relative;">
+  <div class="shared-chat-container">
     <div class="chat-box" id="chat-box">
       {% if not chat_history %}
       <div class="chat-message assistant">
@@ -45,6 +139,8 @@
           {{ msg.user_message | safe }}
           <div class="timestamp">{{ msg.timestamp | default('Maintenant') }}</div>
         </div>
+        <img src="{{ url_for('static', filename='user-avatar.png') }}" alt="User" class="avatar"
+          style="text-align: right;" />
       </div>
       <div class="chat-message assistant">
         <img src="{{ url_for('static', filename='assistant-avatar.png') }}" alt="Assistant" class="avatar" />
@@ -54,16 +150,21 @@
           <div class="mt-2">
             {% set ext = msg.bot_response.file_path.split('.')[-1].lower() %}
             {% if ext in ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'] %}
-              <img src="{{ url_for('static', filename='files/' + msg.bot_response.file_path) }}" alt="Image associée" style="max-width: 300px; max-height: 300px; display: block; margin: 0.5rem 0; border-radius: 8px;" />
+            <img src="{{ url_for('static', filename='files/' + msg.bot_response.file_path) }}" alt="Image associée" />
             {% elif ext == 'pdf' %}
-              <a href="{{ url_for('static', filename='files/' + msg.bot_response.file_path) }}" target="_blank" class="text-blue-500 hover:underline" download>
-                <i class="fas fa-file-pdf"></i> Télécharger le PDF
-              </a>
+            <a href="{{ url_for('static', filename='files/' + msg.bot_response.file_path) }}" target="_blank" download>
+              <i class="fas fa-file-pdf"></i> Télécharger le PDF
+            </a>
             {% else %}
-              <a href="{{ url_for('static', filename='files/' + msg.bot_response.file_path) }}" target="_blank" class="text-blue-500 hover:underline" download>
-                <i class="fas fa-download"></i> Télécharger le fichier
-              </a>
+            <a href="{{ url_for('static', filename='files/' + msg.bot_response.file_path) }}" target="_blank" download>
+              <i class="fas fa-download"></i> Télécharger le fichier
+            </a>
             {% endif %}
+          </div>
+          {% endif %}
+          {% if msg.bot_response.url %}
+          <div class="mt-2">
+            <a href="{{ msg.bot_response.url }}" target="_blank">En savoir plus</a>
           </div>
           {% endif %}
           {% if msg.bot_response.method %}
@@ -79,9 +180,10 @@
       </div>
       {% endfor %}
     </div>
-    <button onclick="window.print()" id="pdf-btn" style="position:fixed;bottom:32px;right:32px;background:#007BFF;color:#fff;border:none;padding:0.7rem 1.5rem;border-radius:8px;font-size:1.1rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;z-index:1000;box-shadow:0 2px 8px rgba(0,0,0,0.12);">
+    <button onclick="window.print()" id="pdf-btn">
       <i class="fas fa-file-pdf"></i> Télécharger en PDF
     </button>
   </div>
 </body>
-</html> 
+
+</html>
