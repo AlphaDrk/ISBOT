@@ -194,7 +194,7 @@ def initialize_models():
             max_n=5   # Maximum length of char n-grams
         )
         if not os.path.exists('models'):
-            os.makedirs('models')
+            os.makedirs('models', exist_ok=True)
         fasttext_model.save(fasttext_model_path)
     
     # Pre-calculate FastText vectors

@@ -1,7 +1,8 @@
 *.log
 *.env
 *.md
-models/
 env/
 indexdir/
 __pycache__/
+# Remove models/ from gitignore if you need to include pretrained models
+models/
