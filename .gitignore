@@ -4,5 +4,7 @@
 env/
 indexdir/
 __pycache__/
-# Remove models/ from gitignore if you need to include pretrained models
 models/
+instance/
+*.db
+oauth_debug.log
